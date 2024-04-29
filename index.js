@@ -1,16 +1,18 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
 // const collection = connectToDatabase();
-
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 import { MongoClient } from "mongodb";
 
 //for getting all the info from the database
 app.get("/all", async (req, res) => {
+  console.log("hitted all");
   const uri = process.env.MONGO_URL;
   try {
     const client = new MongoClient(uri);
@@ -79,6 +81,7 @@ app.post("/update", async (req, res) => {
 
 //for retriveing the specific event data
 app.post("/specific", async (req, res) => {
+  console.log("hitted specific");
   const { value } = req.body;
   if (value === undefined)
     res.json({ error: "Please provide email and value" });
@@ -99,7 +102,7 @@ app.post("/specific", async (req, res) => {
       },
       {
         $project: {
-          // "userData.collegeName": 1,  //!for retrieving along with user details
+          "userData.collegeName": 1, //!for retrieving along with user details
           [value]: 1,
           _id: 0,
         },
