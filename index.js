@@ -15,8 +15,8 @@ import { MongoClient } from "mongodb";
 app.get("/all", async (req, res) => {
   console.log("hitted all");
   const uri = process.env.MONGO_URL;
+  const client = new MongoClient(uri);
   try {
-    const client = new MongoClient(uri);
     await client.connect();
     const database = client.db();
     const reg = database.collection("registrations");
@@ -54,6 +54,9 @@ app.get("/all", async (req, res) => {
   } catch (error) {
     console.error("Error connecting to the database:", error);
     res.json(error);
+  } finally {
+    // Ensure that the connection is closed in the end
+    await client.close();
   }
 });
 
@@ -63,8 +66,8 @@ app.post("/update", async (req, res) => {
   if (email === undefined || value === undefined)
     res.json({ error: "Please provide email and value" });
   const uri = process.env.MONGO_URL;
+  const client = new MongoClient(uri);
   try {
-    const client = new MongoClient(uri);
     await client.connect();
 
     const database = client.db();
@@ -77,6 +80,9 @@ app.post("/update", async (req, res) => {
   } catch (error) {
     console.error("Error connecting to the database:", error);
     res.json(error);
+  } finally {
+    // Ensure that the connection is closed in the end
+    await client.close();
   }
 });
 
@@ -87,8 +93,8 @@ app.post("/specific", async (req, res) => {
   if (value === undefined)
     res.json({ error: "Please provide email and value" });
   const uri = process.env.MONGO_URL;
+  const client = new MongoClient(uri);
   try {
-    const client = new MongoClient(uri);
     await client.connect();
     const database = client.db();
     const reg = database.collection("registrations");
@@ -114,6 +120,9 @@ app.post("/specific", async (req, res) => {
   } catch (error) {
     console.error("Error connecting to the database:", error);
     res.json(error);
+  } finally {
+    // Ensure that the connection is closed in the end
+    await client.close();
   }
 });
 
@@ -122,8 +131,8 @@ app.post("/delete", async (req, res) => {
   const { email } = req.body;
   if (email === undefined) res.json({ error: "Please provide email" });
   const uri = process.env.MONGO_URL;
+  const client = new MongoClient(uri);
   try {
-    const client = new MongoClient(uri);
     await client.connect();
     const database = client.db();
     const usr = database.collection("users");
@@ -134,6 +143,9 @@ app.post("/delete", async (req, res) => {
   } catch (error) {
     console.error("Error connecting to the database:", error);
     res.json(error);
+  } finally {
+    // Ensure that the connection is closed in the end
+    await client.close();
   }
 });
 
