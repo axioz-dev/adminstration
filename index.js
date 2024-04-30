@@ -54,9 +54,6 @@ app.get("/all", async (req, res) => {
   } catch (error) {
     console.error("Error connecting to the database:", error);
     res.json(error);
-  } finally {
-    // Ensure that the connection is closed in the end
-    await client.close();
   }
 });
 
@@ -80,9 +77,6 @@ app.post("/update", async (req, res) => {
   } catch (error) {
     console.error("Error connecting to the database:", error);
     res.json(error);
-  } finally {
-    // Ensure that the connection is closed in the end
-    await client.close();
   }
 });
 
@@ -120,9 +114,6 @@ app.post("/specific", async (req, res) => {
   } catch (error) {
     console.error("Error connecting to the database:", error);
     res.json(error);
-  } finally {
-    // Ensure that the connection is closed in the end
-    await client.close();
   }
 });
 
@@ -143,9 +134,6 @@ app.post("/delete", async (req, res) => {
   } catch (error) {
     console.error("Error connecting to the database:", error);
     res.json(error);
-  } finally {
-    // Ensure that the connection is closed in the end
-    await client.close();
   }
 });
 
